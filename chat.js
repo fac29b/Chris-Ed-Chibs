@@ -1,3 +1,4 @@
+const apiUrl = "https://api.openai.com/v1/chat/completions";
 let localApiKey;
 
 function displayText() {
@@ -24,6 +25,7 @@ function storeApiKey() {
   // Store in a local variable
   localApiKey = apiKey;
 
+  fetchData(apiUrl, localApiKey);
   // Display a warning for learning purposes
   console.warn('This API key is stored in a local variable for learning purposes only. Do not use in production.');
 
@@ -31,44 +33,31 @@ function storeApiKey() {
   console.log('API Key stored:', localApiKey);
 }
 
-function fetchData(apiEndpoint, apiKey) {
-  const headers = new Headers({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${apiKey}`
-  });
-  const response = fetch(apiUrl, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'gpt-3.5-turbo',
-      messages: [''],
-      stream: false,
-    }),
-  })
-  return response;
-  fetch(apiEndpoint, { headers })
-    .then(response => {
+async function fetchData(apiUrl, apiKey) {
+  try {
+      const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+              Authorization: `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              model: 'gpt-3.5-turbo',
+              messages: [{ role: 'user', content: 'You are a helpful assistant.' }],
+              stream: false,
+          }),
+      });
+
       if (!response.ok) {
-        throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+          throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
       }
-      return response.json();
-    })
-    .catch(error => {
-      console.log(error);
-    })
+
+      const data = await response.json();
+      console.log("Data:", data);
+
+  } catch (error) {
+      console.error("Error:", error);
+  }
 }
 
 // Example usage
-const apiUrl = "https://api.openai.com/v1/chat/completions"; // OpenAI API endpoint
-const apiKey = "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"; // Replace with your actual API key
-fetchData(apiUrl, apiKey)
-  .then(data => {
-    console.log("Data:", data);
-    // Process the fetched data as needed
-  })
-  .catch(error => {
-    console.error("Error:", error);
-  });
