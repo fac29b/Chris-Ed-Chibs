@@ -5,8 +5,13 @@
 </head>
 <body>
   <textarea id="inputText" rows="4" cols="50"></textarea>
-  <button onclick="displayText()">Submit</button>
+  <button id="submit-btn" onclick="displayText()">Submit</button>
   <div id="displayArea"></div>
+  <div class="apiKeyArea">
+    <label for="apiKey">Enter API Key:</label>
+    <input type="password" id="apiKey" placeholder="Enter your API key">
+    <button onclick="storeApiKey()">Submit</button>
+  </div>
 
   <script src="./chat.js"></script> 
 </body>
