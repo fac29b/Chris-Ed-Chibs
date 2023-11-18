@@ -31,7 +31,6 @@ function storeApiKey() {
   console.log('API Key stored:', localApiKey);
 }
 
-<<<<<<< HEAD
 function fetchData(apiEndpoint, apiKey) {
   const headers = new Headers({
       'Content-Type': 'application/json',
@@ -58,6 +57,3 @@ fetchData(apiUrl, apiKey)
   .catch(error => {
       console.error("Error:", error);
   });
-=======
-
->>>>>>> refs/remotes/origin/main
