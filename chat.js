@@ -1,37 +1,4 @@
 const apiUrl = "https://api.openai.com/v1/chat/completions";
-let localApiKey;
-
-function displayText() {
-  // Get the text from the textarea
-  var inputText = document.getElementById('inputText').value;
-
-  // Get the element where you want to display the text
-  var displayArea = document.getElementById('displayArea');
-
-  // Set the text content of the display area
-  displayArea.textContent = inputText;
-}
-
-
-// api-key.js
-
-function storeApiKey() {
-
-  const apiKeyInput = document.getElementById('apiKey');
-  const apiKey = apiKeyInput.value;
-
-  // Validate apiKey if needed
-
-  // Store in a local variable
-  localApiKey = apiKey;
-
-  fetchData(apiUrl, localApiKey);
-  // Display a warning for learning purposes
-  console.warn('This API key is stored in a local variable for learning purposes only. Do not use in production.');
-
-  // You can now use the localApiKey variable in your application
-  console.log('API Key stored:', localApiKey);
-}
 
 async function fetchData(apiUrl, apiKey) {
   try {
@@ -53,11 +20,35 @@ async function fetchData(apiUrl, apiKey) {
       }
 
       const data = await response.json();
+      //Close log in if you get data
+      closeLoginModal();
       console.log("Data:", data);
 
   } catch (error) {
       console.error("Error:", error);
   }
+};
+
+  // Function to show the login modal
+function showLoginModal() {
+  document.getElementById('loginModal').style.display = 'flex';
 }
 
-// Example usage
+// Function to close the login modal
+function closeLoginModal() {
+  document.getElementById('loginModal').style.display = 'none';
+}
+
+// Function to handle login
+function login() {
+  // Add your login logic here
+  //document.getElementById("apiKeyInput").value;
+  console.log(document.getElementById("apiKeyInput").value);
+  // For simplicity, let's just close the modal for now
+  fetchData(apiUrl, document.getElementById("apiKeyInput").value);
+}
+
+// Show the login modal when the page loads (for demonstration purposes)
+window.onload = function() {
+  showLoginModal();
+};
